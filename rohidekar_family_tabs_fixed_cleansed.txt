@@ -20,10 +20,10 @@ Venkatesh Rohidekar (-- Tarabai)
 				Raghanath/Gopal Rohidekar (-- Radha)
 					Rajiva Rohidekar (-- Amruta)
 					Rahul Rohidekar
-				Nirmala/Asha Rohidekar {in Padmanabh Nagar} (-- Ashok Sadarjoshi)
-				Jayaraj Rohidekar {from Hospet} (-- Vijaya Sadarjoshi)
+				Nirmala/Asha Rohidekar <!--{in Padmanabh Nagar}--> (-- Ashok Sadarjoshi)
+				Jayaraj Rohidekar <!--{from Hospet}--> (-- Vijaya Sadarjoshi)
 					Ajay Rohidekar
-					Prema Rohidekar {from Bijapur} (-- Prakash Kulkarni)
+					Prema Rohidekar <!--{from Bijapur}--> (-- Prakash Kulkarni)
 						Poornima Kulkarni
 						Prasanna Kulkarni
 			Shamaji Rohidekar (-- Laxmibai Rama)
