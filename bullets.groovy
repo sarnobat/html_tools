@@ -23,15 +23,21 @@ public class BulletsToHtml {
 			// Close the sublist if the previous line was the last in the
 			// sublist
 			String listClosingPrefix = getListClosingPrefix(previousLineLevel, currentLineLevel);
-			System.out.println(listClosingPrefix);
+			if (listClosingPrefix.trim().length() > 0) {
+				System.out.println(listClosingPrefix);
+			}
 
 			String padding = getPadding(currentLineLevel); 
 
 			String openList = getSublistOpen(currentLineLevel, previousLineLevel, padding);
-			System.out.println(openList);
+			if (openList.trim().length() > 0) {
+				System.out.println(openList);
+			}
 
 			String currentLine = getCurrentLine(currentLineLevel, previousLineLevel, line, padding);
-			System.out.println(currentLine);
+			if (currentLine.trim().length() > 0) {
+				System.out.println(currentLine);
+			}
 			previousLineDepth = currentLineLevel;
 		}
 		System.out.println(getListClosingPrefix(previousLineDepth, 0));
@@ -40,21 +46,19 @@ public class BulletsToHtml {
 	private static String getCurrentLine(final int currentLineLevel, final int previousLineLevel,
 			String line, String padding) {
 		String currentLine;
-		if (previousLineLevel < currentLineLevel && previousLineLevel == 0) {
+//		if (previousLineLevel < currentLineLevel && previousLineLevel == 0) {
+//			currentLine = padding + "<li>" + line + "</li>";
+//		} else
+		padding = padding + "  ";
+		if (previousLineLevel < currentLineLevel && previousLineLevel >= 0) {
 			currentLine = padding + "<li>" + line + "</li>";
-		} else
+		} else {
 		if (previousLineLevel >= currentLineLevel && currentLineLevel > 0) {
 			currentLine = padding + "<li>" + line + "</li>";
 		} else 
-//		if (previousLineLevel > currentLineLevel && currentLineLevel > 0) {
+//		if (previousLineLevel < currentLineLevel && previousLineLevel > 0) {
 //			currentLine = padding + "<li>" + line + "</li>";
-//		} else 
-//		if (previousLineLevel == currentLineLevel && currentLineLevel > 0) {
-//			currentLine = padding + "<li>" + line + "</li>";
-//		} else 
-		if (previousLineLevel < currentLineLevel && previousLineLevel > 0) {
-			currentLine = padding + "<li>" + line + "</li>";
-		} else {
+//		} else {
 			currentLine = line;
 		}
 		return currentLine;
@@ -82,8 +86,11 @@ public class BulletsToHtml {
 	private static String getListClosingPrefix(int previousLineLevel, int currentLineLevel) {
 		String ret = "";
 		while(previousLineLevel > currentLineLevel) {
-			ret += StringUtils.repeat("  ", previousLineLevel) + "</ul>\n";
+			ret += StringUtils.repeat("  ", previousLineLevel - 1) + "</ul>";
 			--previousLineLevel;
+			if (previousLineLevel > currentLineLevel) {
+				ret += "\n";
+			}
 		}
 		return ret;
 	}
