@@ -28,7 +28,7 @@ Venkatesh Rohidekar (-- Tarabai)
 						Prasanna Kulkarni
 			Shamaji Rohidekar (-- Laxmibai Rama)
 				Ravindra Rohidekar (-- Snehalata Rao)
-					Gautum Rohidekar (-- Aparna)
+					Gautum Rohidekar <!--(-- Aparna)-->
 					Puneet Rohidekar
 				Meenakshi Rohidekar (-- Sudhir Sarnobat)
 					Prakash Sarnobat
