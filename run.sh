@@ -5,3 +5,4 @@ cat rohidekar_family_tabs_fixed_cleansed.txt \
 	| perl -pe 's{^}{*}g'  \
 	| groovy list_to_html.groovy 2>/dev/null  \
 	| tee -a out.html
+cp out.html ~/sarnobat/www/portraits/tree.html
