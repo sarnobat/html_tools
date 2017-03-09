@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import org.mortbay.util.StringUtil;
 import com.google.common.collect.*;
 import com.google.common.base.Joiner;
+import org.apache.commons.collections.buffer.CircularFifoBuffer;
+
 
 /**
  * Emits heading 3 snippets as json objects, otherwise emits verbatim.
@@ -32,7 +34,7 @@ public class Mwk2Json {
 
 			br = new BufferedReader(new InputStreamReader(System.in));
 
-Collection<String> previousLines = EvictingQueue.<String>create(5);
+Collection<String> previousLines = new CircularFifoBuffer(5);
 
 			String level3snippet = "";
 			String currentLevel2Heading = null;
