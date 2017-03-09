@@ -16,20 +16,17 @@ import com.google.common.base.Joiner;
  */
 public class Mwk2Json {
 
-private static String printQueue(java.util.Collection<String> queue) {
-	StringBuffer sb = new StringBuffer();
-	for (String s : queue) {
-		sb.append(s);
-		sb.append("\n");
-}
-return sb.toString();
-}
+	private static String printQueue(java.util.Collection<String> queue) {
+		StringBuffer sb = new StringBuffer();
+		for (String s : queue) {
+			sb.append(s);
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 
 	public static void main(String[] args) {
-if (true) {
-//System.err.println("=== ABC ===".matches("[=]+[^=]+[=]+"));
-//return;
-}
+
 		BufferedReader br = null;
 		try {
 
