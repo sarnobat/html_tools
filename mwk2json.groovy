@@ -34,7 +34,7 @@ public class Mwk2Json {
 
 			br = new BufferedReader(new InputStreamReader(System.in));
 
-Collection<String> previousLines = new CircularFifoBuffer(5);
+Collection<String> previousLines = new CircularFifoBuffer(10);
 
 			String level3snippet = "";
 			String currentLevel2Heading = null;
@@ -102,7 +102,7 @@ currentLevel = getHeadingLevel(line);
 						}
 					}
 				}
-System.err.println(currentLevel + " :: " + line);
+//System.err.println(currentLevel + " :: " + line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
