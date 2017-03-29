@@ -1,0 +1,1 @@
+cat ~/sarnobat.git/src/javascript/d3_drag_drop_nodes/heap.txt | groovy ~/github/html_tools/csvHeap2listReversed.groovy | sh ~/bin/httpify.sh | xargs -n 1 -d'\n' sh ~/bin/htmlify.sh | tee ~/trash/hoist.html
