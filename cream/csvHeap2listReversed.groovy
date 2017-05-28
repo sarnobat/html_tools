@@ -26,6 +26,7 @@ public class CsvHeap2ListReversed {
 			br = new BufferedReader(new InputStreamReader(System.in));
 			String line;
 			while ((line = br.readLine()) != null) {
+System.err.println("main(): line = " + line);
 				CSVParser p = new CSVParser(new StringReader(line));
 				String[] line2 = p.getLine();
 				String parent = line2[0];
