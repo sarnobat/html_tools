@@ -50,7 +50,7 @@ public class MwkSlice {
 								// print to new snippet file	
 							}
 						} else {
-							System.out.println(level3snippet);
+							System.out.print(level3snippet);
 						}
 					}
 					level3snippet = "";
@@ -66,11 +66,11 @@ public class MwkSlice {
 					targetDir = rootDir + "/snippets/" + headingText;
 					targetDirPath = Paths.get(targetDir);
 					currentLevel2Heading = headingText;
-					System.out.print(line);
+					System.out.println(line);
 				} else if (getHeadingLevel(line) == 3) {
-					level3snippet += line;
+					level3snippet += line + "\n" ;
 				} else if (getHeadingLevel(line) > 3) {
-					level3snippet += "\n" + line ;
+					level3snippet += line + "\n" ;
 				}
 
 			} else {
@@ -79,14 +79,14 @@ public class MwkSlice {
 //					if (line.length() == 0) {
 //						System.out.print("\n"+"(empty)");
 //					} else {
-						System.out.print("\n" + line);
+						System.out.println(line);
 //					}
 					if (level3snippet.length() > 0) {
 						throw new RuntimeException("Shouldn't happen");
 					}
 					
 				} else {
-					level3snippet += "\n" + line;
+					level3snippet += line + "\n";
 				}
 			}
 		}
