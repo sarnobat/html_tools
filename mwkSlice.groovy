@@ -108,10 +108,10 @@ public class MwkSlice {
 		System.out.println(level3snippet);
 		Thread.sleep(1000);
 		System.err.println("");
-		System.err.println("Snippets created in:");
-		System.err.println(rootDir);
 		System.err.println("Move snippets:");
 		System.err.println("mv -n -v " + rootDir + "/* ~/mwk/snippets/");
+		System.err.println("Move remnants:");
+		System.err.println("mv -v ~/mwk/new.mwk.sliced ~/mwk/new.mwk");
 	}
 
 	private static String getHeadingText(String line) {
