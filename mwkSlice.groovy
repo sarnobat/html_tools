@@ -38,9 +38,9 @@ public class MwkSlice {
 					// emit previous snippet
 					// TODO: We can remove this condition later
 					//System.err.println("MwkSlice.main() heading: " + line);
-					if (headingText != null) {
-						if ("2".equals(headingText)
-								|| headingText.length() == 0) {
+					if (currentLevel2Heading != null) {
+						if ("2".equals(currentLevel2Heading)
+								|| currentLevel2Heading.length() == 0) {
 							if (!targetDirPath.toFile().exists()) {
 								if (!targetDirPath.toFile().mkdirs()) {
 									throw new RuntimeException(
@@ -65,22 +65,33 @@ public class MwkSlice {
 				else if (getHeadingLevel(line) == 2) {
 					targetDir = rootDir + "/snippets/" + headingText;
 					targetDirPath = Paths.get(targetDir);
-					System.out.println(line);
+					currentLevel2Heading = headingText;
+					System.out.print(line);
 				} else if (getHeadingLevel(line) == 3) {
-					level3snippet += headingText+":\t"+line + "\n";
+					level3snippet += line;
 				} else if (getHeadingLevel(line) > 3) {
-					level3snippet += line + "\n";
+					level3snippet += "\n" + line ;
 				}
 
 			} else {
 				if (currentLevel < 3) {
-					System.out.println(line);
+					System.err.println("MwkSlice.main() >>>> " + line  + "<<<<<");
+//					if (line.length() == 0) {
+//						System.out.print("\n"+"(empty)");
+//					} else {
+						System.out.print("\n" + line);
+//					}
+					if (level3snippet.length() > 0) {
+						throw new RuntimeException("Shouldn't happen");
+					}
 					
 				} else {
-					level3snippet += headingText+":\t"+line + "\n";
+					level3snippet += "\n" + line;
 				}
 			}
 		}
+		// print out what remains
+		System.out.println(level3snippet);
 	}
 
 	private static String getHeadingText(String line) {
