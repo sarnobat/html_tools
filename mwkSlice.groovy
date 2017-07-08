@@ -109,7 +109,7 @@ public class MwkSlice {
 		Thread.sleep(1000);
 		System.err.println("");
 		System.err.println("Move snippets:");
-		System.err.println("mv -n -v " + rootDir + "/* ~/mwk/snippets/");
+		System.err.println("find " + rootDir + " -type f | xargs -n 1 mv -n -v -t ~/mwk/snippets/");
 		System.err.println("Move remnants:");
 		System.err.println("mv -v ~/mwk/new.mwk.sliced ~/mwk/new.mwk");
 	}
