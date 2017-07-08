@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -7,11 +8,15 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
+
 /**
+ * 
+ * cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
  */
 public class MwkSlice {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
 		BufferedReader br = null;
 
@@ -21,13 +26,12 @@ public class MwkSlice {
 		String currentLevel2Heading = null;
 		String line = "";
 		boolean insideLevel3Snippet = false;
-		String rootDir = getWorkingDirectory().toString();
+		String rootDir = Files.createTempDirectory("snippets").toString();//getWorkingDirectory().toString();
 		Path remnantInputFile = Files.createTempFile("", ".txt");
 		if (!remnantInputFile.toFile().exists()) {
 			throw new RuntimeException("Couldn't create renmant file: " + remnantInputFile.toString());
 		}
 		String headingText = null;
-		String targetDir;
 		Path targetDirPath = null;
 		int currentLevel = 0;
 		while ((line = br.readLine()) != null) {
@@ -47,7 +51,14 @@ public class MwkSlice {
 											"Failed to make target dir");
 								}
 							} else {
-								// print to new snippet file	
+								// print previously accumulated new snippet to file
+								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) + ".mwk");
+								File newFile = path.toFile();
+								if (newFile.exists()) {
+									throw new RuntimeException("Snippet already exists");
+								}
+								//newFile.createNewFile();
+								FileUtils.writeStringToFile(newFile, level3snippet, "UTF8");
 							}
 						} else {
 							System.out.print(level3snippet);
@@ -63,7 +74,7 @@ public class MwkSlice {
 					
 				}
 				else if (getHeadingLevel(line) == 2) {
-					targetDir = rootDir + "/snippets/" + headingText;
+					String targetDir = rootDir + "/snippets/" + headingText;
 					targetDirPath = Paths.get(targetDir);
 					currentLevel2Heading = headingText;
 					System.out.println(line);
@@ -92,6 +103,11 @@ public class MwkSlice {
 		}
 		// print out what remains
 		System.out.println(level3snippet);
+		Thread.sleep(1000);
+		System.err.println("");
+		System.err.println("Snippets created in:");
+		System.err.println(rootDir);
+		System.err.println("mv -v " + rootDir + "/* ~/mwk/snippets/");
 	}
 
 	private static String getHeadingText(String line) {
