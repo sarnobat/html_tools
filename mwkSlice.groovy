@@ -11,11 +11,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 
 /**
-
-cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
-
-mv -n ~/mwk/new.mwk.sliced ~/mwk/new.mwk
- 
+ * 
+ * cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
  */
 public class MwkSlice {
 
@@ -28,8 +25,7 @@ public class MwkSlice {
 		String level3snippet = "";
 		String currentLevel2Heading = null;
 		String line = "";
-		boolean insideLevel3Snippet = false;
-		String rootDir = Files.createTempDirectory("snippets_").toString();//getWorkingDirectory().toString();
+		String rootDir = Files.createTempDirectory("snippets").toString();//getWorkingDirectory().toString();
 		Path remnantInputFile = Files.createTempFile("", ".txt");
 		if (!remnantInputFile.toFile().exists()) {
 			throw new RuntimeException("Couldn't create renmant file: " + remnantInputFile.toString());
@@ -77,7 +73,7 @@ public class MwkSlice {
 					
 				}
 				else if (getHeadingLevel(line) == 2) {
-					String targetDir = rootDir + "/" + headingText;
+					String targetDir = rootDir + "/snippets/" + headingText;
 					targetDirPath = Paths.get(targetDir);
 					currentLevel2Heading = headingText;
 					System.out.println(line);
@@ -108,10 +104,9 @@ public class MwkSlice {
 		System.out.println(level3snippet);
 		Thread.sleep(1000);
 		System.err.println("");
-		System.err.println("Move snippets:");
-		System.err.println("find " + rootDir + " -type f | xargs -n 1 mv -n -v -t ~/mwk/snippets/");
-		System.err.println("Move remnants:");
-		System.err.println("mv -v ~/mwk/new.mwk.sliced ~/mwk/new.mwk");
+		System.err.println("Snippets created in:");
+		System.err.println(rootDir);
+		System.err.println("mv -n -v " + rootDir + "/* ~/mwk/snippets/");
 	}
 
 	private static String getHeadingText(String line) {
@@ -122,31 +117,6 @@ public class MwkSlice {
 		} else {
 			throw new RuntimeException("Couldn't determine heading");
 		}
-	}
-
-	private static Path getWorkingDirectory() {
-		return Paths.get(".").toAbsolutePath();
-	}
-
-	private static boolean isInsideLevel3Heading(String line,
-			boolean insideLevel3Snippet) {
-		boolean insideLevel3SnippetRet;
-		if (isHeading(line)) {
-			if (getHeadingLevel(line) == 3) {
-				insideLevel3SnippetRet = true;
-			} else if (getHeadingLevel(line) > 3) {
-				insideLevel3SnippetRet = true;
-			} else if (getHeadingLevel(line) < 3) {
-				insideLevel3SnippetRet = false;
-			} else {
-				throw new RuntimeException("Invalid case");
-			}
-		} else {
-			// System.err.println("isInsideLevel3Heading() - " +
-			// insideLevel3Snippet);
-			insideLevel3SnippetRet = insideLevel3Snippet;
-		}
-		return insideLevel3SnippetRet;
 	}
 
 	private static boolean isHeading(String line) {
