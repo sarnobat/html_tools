@@ -39,8 +39,9 @@ public class MwkSlice {
 				
 				if (currentLevel < 4) {
 					// emit previous snippet
-					// TODO: We can remove this condition later
-					//System.err.println("MwkSlice.main() heading: " + line);
+					
+					// We could remove this condition, but I'm not convinced it's
+					// an improvement.
 					if (currentLevel2Heading != null) {
 						if ("2".equals(currentLevel2Heading)
 								|| currentLevel2Heading.length() == 0) {
@@ -56,7 +57,6 @@ public class MwkSlice {
 								if (newFile.exists()) {
 									throw new RuntimeException("Snippet already exists");
 								}
-								//newFile.createNewFile();
 								FileUtils.writeStringToFile(newFile, level3snippet, "UTF8");
 							}
 						} else {
@@ -85,12 +85,7 @@ public class MwkSlice {
 
 			} else {
 				if (currentLevel < 3) {
-					System.err.println("MwkSlice.main() >>>> " + line  + "<<<<<");
-//					if (line.length() == 0) {
-//						System.out.print("\n"+"(empty)");
-//					} else {
-						System.out.println(line);
-//					}
+					System.out.println(line);
 					if (level3snippet.length() > 0) {
 						throw new RuntimeException("Shouldn't happen");
 					}
