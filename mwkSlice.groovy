@@ -52,7 +52,8 @@ public class MwkSlice {
 								}
 							} else {
 								// print previously accumulated new snippet to file
-								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) + ".mwk");
+								String summary = getSummary(level3snippet);
+								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) +  "__" + summary +".mwk");
 								File newFile = path.toFile();
 								if (newFile.exists()) {
 									throw new RuntimeException("Snippet already exists");
@@ -102,6 +103,19 @@ public class MwkSlice {
 		System.err.println("Snippets created in:");
 		System.err.println(rootDir);
 		System.err.println("mv -n -v " + rootDir + "/* ~/mwk/snippets/");
+	}
+
+	private static String getSummary(String level3snippet) {
+		String[] lines = level3snippet.split("\n");
+		if (lines[0].matches("^=+\\s+=+")) {
+			if (lines.length > 1) {
+				return lines[1].substring(0, Math.min(23, lines[1].length())).trim();
+			} else {
+				return "";
+			}
+		} else {
+			return getHeadingText(lines[0]);
+		}
 	}
 
 	private static String getHeadingText(String line) {
