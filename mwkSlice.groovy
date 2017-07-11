@@ -11,8 +11,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 
 /**
- * 
- * cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
+
+This should be idempotent:
+ 
+cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
+  
  */
 public class MwkSlice {
 
@@ -106,16 +109,51 @@ public class MwkSlice {
 	}
 
 	private static String getSummary(String level3snippet) {
+		if (!level3snippet.startsWith("=")) {
+			System.err.println("MwkSlice.getSummary() Develoepr error - snippet doesn't start with a heading: " + level3snippet);
+			return "";
+		}
 		String[] lines = level3snippet.split("\n");
 		if (lines[0].matches("^=+\\s+=+")) {
 			if (lines.length > 1) {
-				return lines[1].substring(0, Math.min(23, lines[1].length())).trim();
+				int i = 1;
+				String nextNonBlankLine = lines[i];
+				while(nextNonBlankLine.trim().length() < 1) {
+					++i;
+					if (i == lines.length) {
+						nextNonBlankLine = "";
+						break;
+					} else {
+						nextNonBlankLine = lines[i];
+					}
+				}
+				return cleanse(nextNonBlankLine.substring(0, Math.min(23, nextNonBlankLine.length())).trim());
 			} else {
 				return "";
 			}
 		} else {
+			try {
 			return getHeadingText(lines[0]);
+			} catch (Exception e) {
+				System.err.println("MwkSlice.getSummary() " + level3snippet);
+				throw e;
+			}
 		}
+	}
+
+	private static String cleanse(String trim) {
+		return trim.replace("~", "_")
+				.replace("!", "_")
+				.replace("\"", "_")
+				.replace("'", "_")
+				.replace(",", "_")
+				.replace("/", "_")
+				.replace("’", "_")
+				.replace(".", "_")
+				.replace(" ", "_")
+				.replace("?", "_")
+				.replaceAll("[\\[:']","_")
+				.replaceAll("\\d\\d\\d\\d-\\d\\d-\\d\\d", "");
 	}
 
 	private static String getHeadingText(String line) {
@@ -124,7 +162,7 @@ public class MwkSlice {
 		if (m.find()) {
 			return m.group(1).trim();
 		} else {
-			throw new RuntimeException("Couldn't determine heading");
+			throw new RuntimeException("Couldn't determine heading: >>>" + line + "<<<");
 		}
 	}
 
