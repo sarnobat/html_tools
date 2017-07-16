@@ -47,6 +47,9 @@ public class MwkSlice {
 					// an improvement.
 					if (currentLevel2Heading != null) {
 						if ("2".equals(currentLevel2Heading)
+//								|| "atletico".equalsIgnoreCase(currentLevel2Heading)
+//								|| "career".equalsIgnoreCase(currentLevel2Heading)
+								|| "Self, Personal Development".equalsIgnoreCase(currentLevel2Heading)
 								|| currentLevel2Heading.length() == 0) {
 							if (!targetDirPath.toFile().exists()) {
 								if (!targetDirPath.toFile().mkdirs()) {
