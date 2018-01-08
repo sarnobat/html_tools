@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.api.client.repackaged.com.google.common.base.Strings;
+import com.google.common.base.Strings;
 
 public class BulletsToHtml {
 
@@ -14,9 +14,10 @@ public class BulletsToHtml {
 		int previousLineDepth = 0;
 		while ((lineOrig = reader.readLine()) != null) {
 			// do something with every line, one at a time
-			final int currentLineLevel = getBulletIndentationLevel(lineOrig);
+			final int currentLineLevel = getBulletIndentationLevel(lineOrig.trim());
 			final int previousLineLevel = previousLineDepth;
-			String line = lineOrig.substring(currentLineLevel);
+			// I don't understand what the substring is for so I'm commenting it out.
+			String line = lineOrig;//.substring(currentLineLevel);
 
 			// Close the sublist if the previous line was the last in the
 			// sublist
@@ -42,7 +43,8 @@ public class BulletsToHtml {
 	}
 
 	private static String getCurrentLine(final int currentLineLevel, final int previousLineLevel,
-			String line, String padding) {
+			String line1, String padding) {
+		String line = line1.trim().substring(0 + currentLineLevel).trim();
 		String currentLine;
 		padding = padding + "  ";
 		if (previousLineLevel < currentLineLevel && previousLineLevel >= 0) {

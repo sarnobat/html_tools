@@ -58,7 +58,7 @@ public class MwkSlice {
 								}
 							} else {
 								// print previously accumulated new snippet to file
-								String summary = getSummary(level3snippet);
+								String summary = getSummary(level3snippet).replaceAll("[“'é\\s]","_");
 								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) +  "__" + summary +".mwk");
 								File newFile = path.toFile();
 								if (newFile.exists()) {
