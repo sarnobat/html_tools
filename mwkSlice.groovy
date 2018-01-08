@@ -15,7 +15,8 @@ import org.apache.commons.io.FileUtils;
 This should be idempotent:
  
 cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
-  
+
+ This only works on Mac. Only linux the unmappable characters are a problem  
  */
 public class MwkSlice {
 
@@ -58,7 +59,8 @@ public class MwkSlice {
 								}
 							} else {
 								// print previously accumulated new snippet to file
-								String summary = getSummary(level3snippet).replaceAll("[“'é\\s]","_");
+								// This only works on Mac. Only linux the unmappable characters are a problem
+								String summary = getSummary(level3snippet);//.replaceAll("[“'é\\s]","_");
 								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) +  "__" + summary +".mwk");
 								File newFile = path.toFile();
 								if (newFile.exists()) {
