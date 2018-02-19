@@ -114,6 +114,7 @@ System.err.println("main(): line = " + line);
 	private static TreeNode buildTree(String root, Multimap<String, String> m) {
 		Set<TreeNode> childNodes = new HashSet<TreeNode>();
 		for (String childNodeData : m.get(root)) {
+//			System.err.println("buildTree() - " + root);
 			TreeNode childNode = buildTree(childNodeData, m);
 			childNodes.add(childNode);
 		}
