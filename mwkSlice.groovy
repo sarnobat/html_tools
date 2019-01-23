@@ -12,13 +12,20 @@ import org.apache.commons.io.FileUtils;
 
 /**
 
-This should be idempotent:
- 
-cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
+EXAMPLE:
 
- This only works on Mac. Only linux the unmappable characters are a problem  
+	cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee -a ~/mwk/new_not_sliced.mwk
+
+NOTES
+	(-) System.err captures what WAS sliced successfully. System.out captures what was NOT (and it needs to be tee'd out to new_not_sliced.mwk for losslessness)
+	(-) This should be idempotent
+	(-) This only works on Mac. Only linux the unmappable characters are a problem  
+
+
  */
 public class MwkSlice {
+
+	private static final boolean PRINT_SLICED = false;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -37,7 +44,9 @@ public class MwkSlice {
 		String headingText = null;
 		Path targetDirPath = null;
 		int currentLevel = 0;
+		int lineNumber = 0;
 		while ((line = br.readLine()) != null) {
+			lineNumber++;
 			if (isHeading(line)) {
 				currentLevel = getHeadingLevel(line);
 				
@@ -47,11 +56,9 @@ public class MwkSlice {
 					// We could remove this condition, but I'm not convinced it's
 					// an improvement.
 					if (currentLevel2Heading != null) {
-						if ("2".equals(currentLevel2Heading)
-//								|| "atletico".equalsIgnoreCase(currentLevel2Heading)
-//								|| "career".equalsIgnoreCase(currentLevel2Heading)
-								|| "Self, Personal Development".equalsIgnoreCase(currentLevel2Heading)
-								|| currentLevel2Heading.length() == 0) {
+// 						if ("2".equals(currentLevel2Heading)
+// 								|| "Self, Personal Development".equalsIgnoreCase(currentLevel2Heading)
+// 								|| currentLevel2Heading.length() == 0) {
 							if (!targetDirPath.toFile().exists()) {
 								if (!targetDirPath.toFile().mkdirs()) {
 									throw new RuntimeException(
@@ -73,10 +80,12 @@ public class MwkSlice {
 									newFile = path.toFile();
 								}
 								FileUtils.writeStringToFile(newFile, level3snippet, "UTF8");
+								System.err.print(level3snippet);
 							}
-						} else {
-							System.out.print(level3snippet);
-						}
+// 						} else {
+// 							// we have a level 3 heading which is handled by the below code
+// 								System.out.print(level3snippet);
+// 						}
 					}
 					level3snippet = "";
 				}
@@ -88,6 +97,7 @@ public class MwkSlice {
 					
 				}
 				else if (getHeadingLevel(line) == 2) {
+					// The snippet already exists under a level 2 category heading. Put the snippet in the corresponding subdir. Don't lose whatever sorting we did under the existing system.
 					String targetDir = rootDir + "/snippets/" + headingText;
 					targetDirPath = Paths.get(targetDir);
 					currentLevel2Heading = headingText;
@@ -100,7 +110,9 @@ public class MwkSlice {
 
 			} else {
 				if (currentLevel < 3) {
+					// Text found that is NOT inside a level 3 heading (which ideally we don't want). Emit it to stdout (and it should be tee'd to an unsliced file)
 					System.out.println(line);
+
 					if (level3snippet.length() > 0) {
 						throw new RuntimeException("Shouldn't happen");
 					}
@@ -116,7 +128,7 @@ public class MwkSlice {
 		System.err.println("");
 		System.err.println("Snippets created in:");
 		System.err.println(rootDir);
-		System.err.println("mv -n -v " + rootDir + "/* ~/mwk/snippets/");
+		System.err.println("mv -n -v " + rootDir + "/snippets/* ~/mwk/snippets/");
 	}
 
 	private static String getSummary(String level3snippet) {
@@ -144,7 +156,11 @@ public class MwkSlice {
 			}
 		} else {
 			try {
-			return getHeadingText(lines[0]);
+				String headingText = getHeadingText(lines[0]);
+				if (headingText.contains('/')) {
+					//throw new RuntimeException("Heading text needs to be cleansed: " + headingText);
+				}
+				return cleanse(headingText);
 			} catch (Exception e) {
 				System.err.println("MwkSlice.getSummary() " + level3snippet);
 				throw e;
@@ -163,6 +179,9 @@ public class MwkSlice {
 				.replace(".", "_")
 				.replace(" ", "_")
 				.replace("?", "_")
+				.replace(">", "_")
+				.replace("<", "_")
+				.replace("=", "_")
 				.replaceAll("[\\[:']","_")
 				.replaceAll("\\d\\d\\d\\d-\\d\\d-\\d\\d", "");
 	}
