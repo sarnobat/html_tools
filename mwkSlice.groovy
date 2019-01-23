@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 This should be idempotent:
  
-cat ~/mwk/new.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
+cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new.mwk.sliced
 
  This only works on Mac. Only linux the unmappable characters are a problem  
  */
@@ -63,8 +63,14 @@ public class MwkSlice {
 								String summary = getSummary(level3snippet);//.replaceAll("[“'é\\s]","_");
 								Path path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) +  "__" + summary +".mwk");
 								File newFile = path.toFile();
-								if (newFile.exists()) {
-									throw new RuntimeException("Snippet already exists");
+// 								if (newFile.exists()) {
+// 									throw new RuntimeException("Snippet already exists: " + newFile.toString());
+// 								}
+								String deduplicationSuffix = "";
+								while (newFile.exists()) {
+									deduplicationSuffix += "1";
+									path = Paths.get(targetDirPath.toString() + "/" + "snpt_" + System.currentTimeMillis() + "_" + ((int)Math.random() * 100000) +  "__" + summary +"_"+deduplicationSuffix+".mwk");
+									newFile = path.toFile();
 								}
 								FileUtils.writeStringToFile(newFile, level3snippet, "UTF8");
 							}
