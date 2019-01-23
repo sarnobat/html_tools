@@ -202,6 +202,12 @@ public class MwkSlice {
 
 	private static boolean isHeading(String line) {
 		// return line.startsWith("=");// && line.matches("");
+		String matches = line.matches("[=]+[^=]+[=]+") && line.startsWith("=");
+		if (line.matches("[=]+[^=]+[=]+.+") && line.startsWith("=")) {
+			if (!line.endsWith("=")) {
+				throw new RuntimeException("Remove trailing whitespace from headings: " + line + "<<<");
+			}
+		}
 		return line.matches("[=]+[^=]+[=]+") && line.startsWith("=");
 	}
 
