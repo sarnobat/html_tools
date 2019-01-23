@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 EXAMPLE:
 
-	cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee -a ~/mwk/new_not_sliced.mwk
+cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new_not_sliced.mwk 2> ~/mwk/new.mwk.sliced
 
 NOTES
 	(-) System.err captures what WAS sliced successfully. System.out captures what was NOT (and it needs to be tee'd out to new_not_sliced.mwk for losslessness)
@@ -125,10 +125,14 @@ public class MwkSlice {
 		// print out what remains
 		System.out.println(level3snippet);
 		Thread.sleep(1000);
+		System.err.println("Backup: ");
+		System.err.println("mv ~/mwk/new_not_sliced.mwk\t~/mwk/bak/new_not_sliced.mwk." + System.currentTimeMillis());
+		System.err.println("mv ~/mwk/new.mwk.sliced\t\t~/mwk/bak/new.mwk.sliced." + System.currentTimeMillis());		
 		System.err.println("");
-		System.err.println("Snippets created in:");
-		System.err.println(rootDir);
+		System.err.println("Snippets created in new temporary dir. Clear your existing unsliced file.");
+		//System.err.println(rootDir);
 		System.err.println("mv -n -v " + rootDir + "/snippets/* ~/mwk/snippets/");
+		
 	}
 
 	private static String getSummary(String level3snippet) {
