@@ -17,10 +17,12 @@ EXAMPLE:
 cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new_not_sliced.mwk 2> ~/mwk/new.mwk.sliced
 
 NOTES
-	(-) System.err captures what WAS sliced successfully. System.out captures what was NOT (and it needs to be tee'd out to new_not_sliced.mwk for losslessness)
-	(-) This should be idempotent
+	(-) System.err captures what WAS sliced successfully (so can be safely discarded)
+	(-) System.out captures what was NOT (so for losslessness, it needs to be tee'd out to new_not_sliced.mwk for losslessness)
+	(-) This should be idempotent (so no tee -a)
 	(-) This only works on Mac. Only linux the unmappable characters are a problem  
-
+	(-) no data should be clobbered by executing the above. Only after executing the commands printed at the end of the program.
+	(-) You should be able to do git reset --hard HEAD~1 to undo the entire execution.
 
  */
 public class MwkSlice {
@@ -98,7 +100,7 @@ public class MwkSlice {
 				}
 				else if (getHeadingLevel(line) == 2) {
 					// The snippet already exists under a level 2 category heading. Put the snippet in the corresponding subdir. Don't lose whatever sorting we did under the existing system.
-					String targetDir = rootDir + "/snippets/" + headingText;
+					String targetDir = rootDir + "/snippets/" + cleanse(headingText).trim();
 					targetDirPath = Paths.get(targetDir);
 					currentLevel2Heading = headingText;
 					System.out.println(line);
@@ -125,14 +127,18 @@ public class MwkSlice {
 		// print out what remains
 		System.out.println(level3snippet);
 		Thread.sleep(1000);
-		System.err.println("Backup: ");
-		System.err.println("mv ~/mwk/new_not_sliced.mwk\t~/mwk/bak/new_not_sliced.mwk." + System.currentTimeMillis());
+		System.err.println("1) Preserve unsuccessful: ");
+		System.err.println("mv ~/mwk/new_not_sliced.mwk\t~/mwk/bak/new_not_sliced.mwk." + System.currentTimeMillis() + ";");
+		System.err.println("2) (optional) Backup what got sliced: ");
 		System.err.println("mv ~/mwk/new.mwk.sliced\t\t~/mwk/bak/new.mwk.sliced." + System.currentTimeMillis());		
 		System.err.println("");
-		System.err.println("Snippets created in new temporary dir. Clear your existing unsliced file.");
+		System.err.println("3) Clear your existing unsliced file.");
+		System.err.println("truncate -s0 ~/mwk/new_slice_these.mwk");
+		System.err.println("4) Save the snippets created in the temporary dir (include subdirs).");
 		//System.err.println(rootDir);
 		System.err.println("mv -n -v " + rootDir + "/snippets/* ~/mwk/snippets/");
-		
+		System.err.println("5) Check nothing got left behind");
+		System.err.println("find " + rootDir + "/snippets/ -type f");
 	}
 
 	private static String getSummary(String level3snippet) {
@@ -186,6 +192,13 @@ public class MwkSlice {
 				.replace(">", "_")
 				.replace("<", "_")
 				.replace("=", "_")
+				.replace("#", "_")
+				.replace(":", "_")
+				.replace(".", "_")
+				.replace(" ", "_")
+				.replace("(", "_")
+				.replace(")", "_")
+				.replace(",", "_")
 				.replaceAll("[\\[:']","_")
 				.replaceAll("\\d\\d\\d\\d-\\d\\d-\\d\\d", "");
 	}
