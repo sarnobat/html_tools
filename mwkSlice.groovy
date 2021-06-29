@@ -15,14 +15,16 @@ import org.apache.commons.io.FileUtils;
 EXAMPLE:
 
 cat ~/mwk/new_slice_these.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new_not_sliced.mwk 2> ~/mwk/new.mwk.sliced
+cat ~/mwk/new_cisco.mwk | groovy ~/github/html_tools/mwkSlice.groovy 2> ~/mwk/new.mwk.sliced > ~/mwk/new_not_sliced.mwk
+cat ~/mwk/new_slice_these_with_pre_existing_categories.mwk | groovy ~/github/html_tools/mwkSlice.groovy | tee ~/mwk/new_not_sliced_preexisting_categories.mwk 2> ~/mwk/new_slice_these_with_pre_existing_categories.mwk
 
 NOTES
+	(-) This should be idempotent (so no tee -a)
+	(-) no data should be clobbered by executing the above (though new files get created). Only after executing the commands printed at the end of the program should anything change
+	(-) You should be able to do git reset --hard HEAD~1 to undo the entire execution.
 	(-) System.err captures what WAS sliced successfully (so can be safely discarded)
 	(-) System.out captures what was NOT (so for losslessness, it needs to be tee'd out to new_not_sliced.mwk for losslessness)
-	(-) This should be idempotent (so no tee -a)
 	(-) This only works on Mac. Only linux the unmappable characters are a problem  
-	(-) no data should be clobbered by executing the above. Only after executing the commands printed at the end of the program.
-	(-) You should be able to do git reset --hard HEAD~1 to undo the entire execution.
 
  */
 public class MwkSlice {
