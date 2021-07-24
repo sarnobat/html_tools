@@ -16,18 +16,16 @@ PREVIOUS_LINE=""
 
 while read LINE
 do
-
-	if [[ -d $LINE ]]; then
-		>&2 echo "[DEBUG] $LINE is a directory"
-		echo "<h3>"
-		basename "$LINE" | perl -pe 's{_}{ }g' | perl -pe 's{^(.)}{\u$1};' | perl -pe 's{(\s)(.)}{$1\u$2};'
-		echo "</h3>"
-	elif [[ -f $LINE ]]; then
-		>&2 echo "[DEBUG] $LINE is a file"
-		echo "$LINE" | perl -pe 's{^(.*)$}{<img src="'$PREFIX'/$1" height=100>}g'
-	else
-		>&2 echo "[DEBUG] $LINE is neither a file nor dir"
-	fi
+	test -d "$LINE" && (
+		>&2 echo "[debug] $LINE is a directory 2"
+                echo "<h3>"
+                basename "$LINE" | perl -pe 's{_}{ }g' | perl -pe 's{^(.)}{\u$1};' | perl -pe 's{(\s)(.)}{$1\u$2};'
+                echo "</h3>"
+	)
+	test -f "$LINE" && (
+		>&2 echo "[debug] $LINE is a file 2"
+                echo "$LINE" | perl -pe 's{^(.*)$}{<img src="'$PREFIX'/$1" height=100>}g'
+	)
 
 done < "${1:-/dev/stdin}"
 
