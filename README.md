@@ -15,6 +15,16 @@ my collection of small programs / routines
 | find | fs | path |    GNU   |
 | mkdir | path | fs |   GNU    |
 
+```mermaid
+flowchart TB
+
+a[fs nodes]
+b[path format]
+c[indented line format - a bit like yaml]
+
+a --> b --> c
+```
+
 ### See also
 * `/Volumes/git/sarnobat.git/2021/yEd/mwk_rohidekar_content_knowledge_pipeline.graphml`
 
