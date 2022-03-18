@@ -22,7 +22,8 @@ a[fs nodes]
 b[path format]
 c[indented line format - a bit like yaml]
 
-a --> b --> c
+a -->|indented2path.sh| b -->|mkdir| c
+c -->|find| b -->|path2indented.sh| a
 ```
 
 ### See also
