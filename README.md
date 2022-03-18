@@ -5,6 +5,7 @@ my collection of small programs / routines
 | one_file.sh | path | path |       |
 | find_dirs_first.sh | | | /Volumes/git/computers.git/mac/bin/find_dirs_first.sh |
 | file2img_recursive.sh | | |   /Volumes/git/computers.git/ubuntu/bin/file2img_recursive.sh    |
+| file2img_html.sh | | | /Users/sarnobat/computers.git/ubuntu/bin/file2img_html.sh |
 | httpify.sh | path | url |   /Volumes/git/computers.git/ubuntu/bin/httpify.sh    |
 | htmlify.sh | url | html |    /Volumes/git/computers.git/ubuntu/bin/htmlify.sh   |
 | thumbnailify.sh | url | url |   /Volumes/git/computers.git/ubuntu/bin/thumbnailify.sh    |
