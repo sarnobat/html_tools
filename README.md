@@ -1,18 +1,18 @@
 my collection of small programs / routines
 
-|program | input | output|
-|---------|-----------|----------|
-| one_file.sh | path | path |
-| find_dirs_first.sh | | |
-| file2img_recursive.sh | | |
-| httpify.sh | path | url |
-| htmlify.sh | url | html |
-| thumbnailify.sh | url | url |
-| limit? | path | path |
-| path2indented.sh | path | indented |
-| indented2path.sh | indented | path |
-| find | fs | path |
-| mkdir | path | fs |
+|program | input | output| code|
+|---------|-----------|----------|------|
+| one_file.sh | path | path |       |
+| find_dirs_first.sh | | | /Volumes/git/computers.git/mac/bin/find_dirs_first.sh |
+| file2img_recursive.sh | | |   /Volumes/git/computers.git/ubuntu/bin/file2img_recursive.sh    |
+| httpify.sh | path | url |   /Volumes/git/computers.git/ubuntu/bin/httpify.sh    |
+| htmlify.sh | url | html |    /Volumes/git/computers.git/ubuntu/bin/htmlify.sh   |
+| thumbnailify.sh | url | url |   /Volumes/git/computers.git/ubuntu/bin/thumbnailify.sh    |
+| limit? | path | path |       |
+| path2indented.sh | path | indented |       |
+| indented2path.sh | indented | path |       |
+| find | fs | path |    GNU   |
+| mkdir | path | fs |   GNU    |
 
 * one_file.sh
 * find_dirs_first.sh
