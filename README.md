@@ -10,7 +10,7 @@ my collection of small programs / routines
 | htmlify.sh | url | html |    /Volumes/git/computers.git/ubuntu/bin/htmlify.sh   |
 | thumbnailify.sh | url | url |   /Volumes/git/computers.git/ubuntu/bin/thumbnailify.sh    |
 | limit? | path | path |  /Volumes/git/src.git/python/limit_per_dir/limit_dir.py     |
-| path2indented.py | path | indented |       |
+| path2indented.py | path | indented |   /Volumes/git/src.git/python/indent/path2indented.py    |
 | indented2path.py | indented | path |       |
 | find | fs | path |    GNU   |
 | mkdir | path | fs |   GNU    |
