@@ -2,7 +2,7 @@ my collection of small programs / routines
 
 |program | input | output| code|
 |---------|-----------|----------|------|
-| one_file.sh | path | path |   /Users/sarnobat/computers.git/nuc/var/www/html/2020/cgi-bin.copy/one_file.sh    |
+| one_file.sh | path | path |   /Volumes/git/computers.git/nuc/var/www/html/cgi-bin.copy/one_file.sh    |
 | find_dirs_first.sh | | | /Volumes/git/computers.git/mac/bin/find_dirs_first.sh |
 | file2img_recursive.sh | | |   /Volumes/git/computers.git/ubuntu/bin/file2img_recursive.sh    |
 | file2img_html.sh | | | /Users/sarnobat/computers.git/ubuntu/bin/file2img_html.sh |
