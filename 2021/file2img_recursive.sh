@@ -1,0 +1,1 @@
+../../computers.git/ubuntu/bin/file2img_recursive.sh
