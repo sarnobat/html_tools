@@ -1,1 +1,0 @@
-/Users/sarnobat/github/coagulate/pipes/file2image.groovy

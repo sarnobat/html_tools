@@ -1,1 +1,0 @@
-../file2img_html.sh

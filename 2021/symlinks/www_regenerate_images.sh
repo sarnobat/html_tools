@@ -1,1 +1,0 @@
-/Volumes/git/computers.git/ubuntu/bin/www_regenerate_images.sh
